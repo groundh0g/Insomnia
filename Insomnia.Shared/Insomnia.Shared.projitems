@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{015C9E38-05B1-40AE-9812-5AFB662E24B6}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Insomnia.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Game1.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\TitleScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\CreditsScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\SplashScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Screens\TheGameScreen.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Screens\" />
+  </ItemGroup>
+</Project>

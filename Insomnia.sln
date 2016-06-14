@@ -1,0 +1,21 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Insomnia.Shared", "Insomnia.Shared\Insomnia.Shared.shproj", "{015C9E38-05B1-40AE-9812-5AFB662E24B6}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MoreOnCode.Xna", "MoreOnCode.Xna\MoreOnCode.Xna.shproj", "{8C0BA620-F407-4046-B1F4-3BB6F615C591}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Insomnia.Mac", "Insomnia\Insomnia.Mac.csproj", "{501801FE-7D3B-43FB-ACAD-7F98B5445323}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{501801FE-7D3B-43FB-ACAD-7F98B5445323}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{501801FE-7D3B-43FB-ACAD-7F98B5445323}.Debug|x86.Build.0 = Debug|Any CPU
+		{501801FE-7D3B-43FB-ACAD-7F98B5445323}.Release|x86.ActiveCfg = Release|Any CPU
+		{501801FE-7D3B-43FB-ACAD-7F98B5445323}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
