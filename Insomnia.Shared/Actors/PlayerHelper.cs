@@ -17,7 +17,7 @@ namespace Insomnia.Shared
 		public Player TrackActor { get; set; }
 		public List<Actor> Baddies { get; set; }
 
-		Vector2 deltaLocation = Vector2.Zero;
+		public Vector2 deltaLocation = Vector2.Zero;
 		Random rand = new Random();
 		float charge = 0;
 
@@ -58,8 +58,13 @@ namespace Insomnia.Shared
 								rect2.Y = (int)baddie.Location.Y;
 								if (rect1.Intersects (rect2) && baddie.IsActive) {
 									// FIXME: BOOM! (always kills, need to fix that!)
-									charge = 0;
-									baddie.IsActive = false;
+									if (baddie.Health <= charge) {
+										baddie.IsActive = false;
+										charge -= baddie.Health;
+									} else {
+										baddie.Health -= (int)Math.Round(charge);
+										charge = 0;
+									}
 									break;
 								}
 							}
