@@ -14,8 +14,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Screens\CreditsScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\SplashScreen.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Screens\TheGameScreen.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Actors\Actor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Actors\Player.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Actors\PlayerHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Actors\Baddie.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Screens\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Actors\" />
   </ItemGroup>
 </Project>

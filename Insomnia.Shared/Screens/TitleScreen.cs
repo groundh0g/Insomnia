@@ -13,7 +13,9 @@ namespace Insomnia.Shared
 	public class TitleScreen : GameScreen
 	{
 		public static GameScreen Instance;
-		
+		public static bool IsPlayerOnePlaying = true;
+		public static bool IsPlayerTwoPlaying = false;
+
 		public TitleScreen(Game parent) : base(parent) { }
 
 		public override void Showing ()

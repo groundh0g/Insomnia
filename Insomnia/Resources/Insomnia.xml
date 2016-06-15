@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with FannyPack Sprite Sheets, v0.2.0 -->
+<!-- https://github.com/groundh0g/FannyPack -->
+
+<!-- Packer: JoeRects, v0.1.0 -->
+<!-- Processed 5 frames in 0.35 seconds. -->
+
+<!-- Exporter (Data): XML, v0.1.0 -->
+<!-- Exporter (Image): PNG, v0.1.0 -->
+<!-- Tue Jun 14 2016 21:42:25 GMT-0400 (EDT) -->
+
+<!--
+  Format:
+    n  = name of sprite
+    x  = sprite x position in texture
+    y  = sprite y position in texture
+    w  = sprite width (may be trimmed)
+    h  = sprite height (may be trimmed)
+    r  = 'y' if sprite is rotated
+    p  = sprite padding (if any)
+    oX = offset x (if trimmed)
+    oY = offset y (if trimmed)
+    oW = original width (if trimmed)
+    oH = original width (if trimmed)
+-->
+<TextureAtlas imagePath="Insomnia.png" width="512" height="1024">
+    <sprite n="background" x="4" y="4" w="201" h="768" oX="0" oY="0" oW="1024" oH="768" />
+    <sprite n="cicken" x="209" y="424" w="161" h="171" oX="62" oY="214" oW="512" oH="512" />
+    <sprite n="girl" x="209" y="4" w="248" h="416" oX="30" oY="21" oW="512" oH="512" />
+    <sprite n="spider" x="4" y="776" w="210" h="133" oX="32" oY="293" oW="512" oH="512" />
+    <sprite n="fairy" x="209" y="599" w="124" h="121" oX="25" oY="23" oW="512" oH="512" />
+</TextureAtlas>
