@@ -3,11 +3,11 @@
 <!-- https://github.com/groundh0g/FannyPack -->
 
 <!-- Packer: JoeRects, v0.1.0 -->
-<!-- Processed 8 frames in 0.38 seconds. -->
+<!-- Processed 9 frames in 0.392 seconds. -->
 
 <!-- Exporter (Data): XML, v0.1.0 -->
 <!-- Exporter (Image): PNG, v0.1.0 -->
-<!-- Wed Jun 15 2016 11:24:51 GMT-0400 (EDT) -->
+<!-- Wed Jun 15 2016 13:11:19 GMT-0400 (EDT) -->
 
 <!--
   Format:
@@ -29,7 +29,8 @@
     <sprite n="girl" x="209" y="4" w="248" h="416" oX="30" oY="21" oW="512" oH="512" />
     <sprite n="spider" x="4" y="776" w="210" h="133" oX="32" oY="293" oW="512" oH="512" />
     <sprite n="fairy" x="209" y="599" w="124" h="121" oX="25" oY="23" oW="512" oH="512" />
-    <sprite n="toy-1" x="152" y="913" w="70" h="105" oX="0" oY="0" oW="70" oH="105" />
-    <sprite n="toy-2" x="4" y="913" w="70" h="106" oX="0" oY="5" oW="70" oH="111" />
-    <sprite n="toy-3" x="78" y="913" w="70" h="106" oX="0" oY="5" oW="70" oH="111" />
+    <sprite n="toy-1" x="218" y="724" w="70" h="105" oX="0" oY="0" oW="70" oH="105" />
+    <sprite n="toy-2" x="82" y="913" w="70" h="106" oX="0" oY="5" oW="70" oH="111" />
+    <sprite n="toy-3" x="156" y="913" w="70" h="106" oX="0" oY="5" oW="70" oH="111" />
+    <sprite n="cookie" x="4" y="913" w="74" h="74" oX="13" oY="11" oW="512" oH="512" />
 </TextureAtlas>

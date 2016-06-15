@@ -56,8 +56,7 @@ namespace Insomnia.Shared
 								var rect2 = baddie.Sprites [baddie.CurrentFrame].TextureRect;
 								rect2.X = (int)baddie.Location.X;
 								rect2.Y = (int)baddie.Location.Y;
-								if (rect1.Intersects (rect2) && baddie.IsActive) {
-									// FIXME: BOOM! (always kills, need to fix that!)
+								if (rect1.Intersects (rect2) && baddie.IsActive && baddie.Attack > 0) {
 									if (baddie.Health <= charge) {
 										baddie.IsActive = false;
 										charge -= baddie.Health;
