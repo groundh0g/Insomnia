@@ -53,6 +53,9 @@
     <Content Include="Content\Insomnia.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\shadow.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icon.ico" />
     <Content Include="Insomnia.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
