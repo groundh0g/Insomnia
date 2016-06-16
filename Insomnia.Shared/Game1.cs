@@ -27,7 +27,7 @@ namespace Insomnia.Shared
 
 		protected override void Initialize ()
 		{
-			MoreOnCode.Xna.Framework.Input.GamePadEx.KeyboardPlayerIndex = PlayerIndex.One;
+//			MoreOnCode.Xna.Framework.Input.GamePadEx.KeyboardPlayerIndex = PlayerIndex.One;
 			base.Initialize ();
 		}
 
@@ -39,6 +39,7 @@ namespace Insomnia.Shared
 
 		protected override void Update (GameTime gameTime)
 		{
+//			MoreOnCode.Xna.Framework.Input.GamePadEx.Update (gameTime);
 			ScreenUtil.Update(gameTime);
 			base.Update (gameTime);
 		}

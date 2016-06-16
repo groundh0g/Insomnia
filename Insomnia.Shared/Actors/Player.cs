@@ -6,11 +6,16 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using MoreOnCode.Xna.Framework.Input;
+using MoreOnCode.Xna.Lib.Graphics;
 
 namespace Insomnia.Shared
 {
 	public class Player : Actor
 	{
+		public enum PlayerState { IDLE, RUN, JUMP };
+
+		public PlayerState State { get; set; }
+		public Dictionary<PlayerState, List<GameSprite>> PlayerSprites { get; set; }
 		public PlayerIndex PlayerIndex { get; set; }
 		public Vector2 MoveSpeed { get; set; }
 		public List<Actor> Baddies { get; set; }
@@ -19,6 +24,7 @@ namespace Insomnia.Shared
 		public Player () : base()
 		{
 			PlayerIndex = PlayerIndex.One;
+			State = PlayerState.IDLE;
 		}
 
 		public override void Update (GameTime gameTime)
@@ -27,9 +33,9 @@ namespace Insomnia.Shared
 			var delta = Vector2.Zero;
 
 			var gamepad = GamePadEx.GetState (PlayerIndex);
-			if (gamepad.IsButtonDown (Buttons.DPadLeft)) {
-				delta.X = -MoveSpeed.X * elapsed;
-			}
+//			if (gamepad.IsButtonDown (Buttons.DPadLeft)) {
+//				delta.X = -MoveSpeed.X * elapsed;
+//			}
 			if (gamepad.IsButtonDown (Buttons.DPadRight)) {
 				delta.X = MoveSpeed.X * elapsed;
 			}
@@ -40,17 +46,36 @@ namespace Insomnia.Shared
 				delta.Y = MoveSpeed.Y * elapsed;
 			}
 
+			if (delta != Vector2.Zero) {
+				if (State != PlayerState.RUN) {
+					State = PlayerState.RUN;
+					CurrentFrame = 0;
+				}
+			} else {
+				if (State != PlayerState.IDLE) {
+					State = PlayerState.IDLE;
+					CurrentFrame = 0;
+				}
+			}
+
 			//Location += delta;
 			updateBaddiePosition (-delta);
 			locWorld -= delta;
 
+//			base.Update (gameTime);
+
+			timeOnCurrentFrame -= elapsed;
+			if (timeOnCurrentFrame < 0.0) {
+				CurrentFrame = (CurrentFrame + 1) % PlayerSprites [State].Count;
+				timeOnCurrentFrame = TimePerFrame;
+			}
+
 			checkForCollissions ();
 
-			base.Update (gameTime);
 		}
 
 		private void checkForCollissions() {
-			var rect1 = this.Sprites [CurrentFrame].TextureRect;
+			var rect1 = this.PlayerSprites[State] [CurrentFrame].TextureRect;
 			rect1.X = (int)this.Location.X;
 			rect1.Y = (int)this.Location.Y;
 			foreach (Actor baddie in Baddies) {
@@ -81,7 +106,7 @@ namespace Insomnia.Shared
 
 		public override void Draw (GameTime gameTime, SpriteBatch spriteBatch)
 		{
-			base.Draw (gameTime, spriteBatch);
+			PlayerSprites[State][CurrentFrame].Draw (spriteBatch, Location, Tint);
 		}
 	}
 }

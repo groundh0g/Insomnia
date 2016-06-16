@@ -17,6 +17,9 @@ namespace Insomnia.Shared
 		Texture2D spriteSheet;
 		Texture2D spriteShadow;
 
+		Dictionary<string, Rectangle> girlRects;
+		Texture2D girlSheet;
+
 		Player girl = new Player ();
 		PlayerHelper helper = new PlayerHelper ();
 		List<Actor> baddies = new List<Actor>();
@@ -29,12 +32,52 @@ namespace Insomnia.Shared
 		public override void Showing ()
 		{
 			BackgroundColor = Color.Red;
+			girlRects = TextureAtlas.Load ("girl");
+			girlSheet = Content.Load<Texture2D> ("girl");
 			spriteRects = TextureAtlas.Load ("Insomnia");
 			spriteSheet = Content.Load<Texture2D> ("Insomnia");
 			spriteShadow = Content.Load<Texture2D> ("shadow");
 
-			girl.Sprites = new GameSprite[] { new GameSprite (spriteSheet, spriteRects ["girl"]) };
-			girl.Location = new Vector2 (50, 250);
+//			girl.Sprites = new GameSprite[] { new GameSprite (spriteSheet, spriteRects ["girl"]) };
+			var idleSprites = new List<GameSprite>() { 
+				new GameSprite (girlSheet, girlRects ["Idle (1)"]),
+				new GameSprite (girlSheet, girlRects ["Idle (2)"]),
+				new GameSprite (girlSheet, girlRects ["Idle (3)"]),
+				new GameSprite (girlSheet, girlRects ["Idle (4)"]),
+				new GameSprite (girlSheet, girlRects ["Idle (5)"]),
+				new GameSprite (girlSheet, girlRects ["Idle (6)"]),
+				new GameSprite (girlSheet, girlRects ["Idle (7)"]),
+				new GameSprite (girlSheet, girlRects ["Idle (8)"]),
+				new GameSprite (girlSheet, girlRects ["Idle (9)"]),
+				new GameSprite (girlSheet, girlRects ["Idle (10)"]),
+			};
+			var runSprites = new List<GameSprite>() { 
+				new GameSprite (girlSheet, girlRects ["Run (1)"]),
+				new GameSprite (girlSheet, girlRects ["Run (2)"]),
+				new GameSprite (girlSheet, girlRects ["Run (3)"]),
+				new GameSprite (girlSheet, girlRects ["Run (4)"]),
+				new GameSprite (girlSheet, girlRects ["Run (5)"]),
+				new GameSprite (girlSheet, girlRects ["Run (6)"]),
+				new GameSprite (girlSheet, girlRects ["Run (7)"]),
+				new GameSprite (girlSheet, girlRects ["Run (8)"]),
+			};
+			var jumpSprites = new List<GameSprite>() { 
+				new GameSprite (girlSheet, girlRects ["Jump (1)"]),
+				new GameSprite (girlSheet, girlRects ["Jump (2)"]),
+				new GameSprite (girlSheet, girlRects ["Jump (3)"]),
+				new GameSprite (girlSheet, girlRects ["Jump (4)"]),
+				new GameSprite (girlSheet, girlRects ["Jump (5)"]),
+				new GameSprite (girlSheet, girlRects ["Jump (6)"]),
+				new GameSprite (girlSheet, girlRects ["Jump (7)"]),
+				new GameSprite (girlSheet, girlRects ["Jump (8)"]),
+				new GameSprite (girlSheet, girlRects ["Jump (9)"]),
+				new GameSprite (girlSheet, girlRects ["Jump (10)"]),
+			};
+			girl.PlayerSprites = new Dictionary<Player.PlayerState, List<GameSprite>> ();
+			girl.PlayerSprites.Add (Player.PlayerState.IDLE, idleSprites);
+			girl.PlayerSprites.Add (Player.PlayerState.RUN, runSprites);
+			girl.PlayerSprites.Add (Player.PlayerState.JUMP, jumpSprites);
+			girl.Location = new Vector2 (50, 450);
 			girl.MoveSpeed = new Vector2 (40, 0);
 			girl.Baddies = baddies;
 
