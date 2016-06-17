@@ -17,13 +17,17 @@ namespace Insomnia.Shared
 		Texture2D spriteSheet;
 		Texture2D spriteShadow;
 
+		string levelBAK  = "gggggggggggggggggggggggdhhhhhhhhhhhhhhhhHHHHHHHHHHHHHHHHBBBBBBBBBBBBBBBB";
+		string levelOBJ  = "                                                                        ";
+		string levelBAD  = "0                       1          2         3                   4      ";
+		string levelTime = "8         6         5              4                                    ";
+
 		Dictionary<string, Rectangle> girlRects;
 		Texture2D girlSheet;
 
 		Player girl = new Player ();
 		PlayerHelper helper = new PlayerHelper ();
 		List<Actor> baddies = new List<Actor>();
-		Baddie aCookie = new Baddie ();
 
 		float timeSinceLastBaddie = 0;
 
@@ -31,14 +35,14 @@ namespace Insomnia.Shared
 
 		public override void Showing ()
 		{
-			BackgroundColor = Color.Red;
+			BackgroundColor = Color.Black;
+
 			girlRects = TextureAtlas.Load ("girl");
 			girlSheet = Content.Load<Texture2D> ("girl");
 			spriteRects = TextureAtlas.Load ("Insomnia");
 			spriteSheet = Content.Load<Texture2D> ("Insomnia");
 			spriteShadow = Content.Load<Texture2D> ("shadow");
 
-//			girl.Sprites = new GameSprite[] { new GameSprite (spriteSheet, spriteRects ["girl"]) };
 			var idleSprites = new List<GameSprite>() { 
 				new GameSprite (girlSheet, girlRects ["Idle (1)"]),
 				new GameSprite (girlSheet, girlRects ["Idle (2)"]),
@@ -74,36 +78,36 @@ namespace Insomnia.Shared
 				new GameSprite (girlSheet, girlRects ["Jump (10)"]),
 			};
 			girl.PlayerSprites = new Dictionary<Player.PlayerState, List<GameSprite>> ();
+
 			girl.PlayerSprites.Add (Player.PlayerState.IDLE, idleSprites);
 			girl.PlayerSprites.Add (Player.PlayerState.RUN, runSprites);
 			girl.PlayerSprites.Add (Player.PlayerState.JUMP, jumpSprites);
-			girl.Location = new Vector2 (50, 450);
-			girl.MoveSpeed = new Vector2 (40, 0);
+			girl.Location = new Vector2 (50, 425);
+			girl.MoveSpeed = new Vector2 (200, 0);
 			girl.Baddies = baddies;
 
 			helper.Sprites = new GameSprite[] { new GameSprite (spriteSheet, spriteRects ["fairy"]) };
-			helper.Location = new Vector2 (50, 475);
+			helper.Location = new Vector2 (50, 450);
 			helper.Tint = Color.Yellow;
 			helper.TrackActor = girl;
 			helper.Baddies = baddies;
+			helper.Attack = 60;
 
+			Baddie aCookie = new Baddie ();
 			aCookie.Sprites = new GameSprite[] { new GameSprite (spriteSheet, spriteRects ["cookie"]) };
-			aCookie.Location = new Vector2 (550, 550);
+			aCookie.Location = new Vector2 (550, 500);
 			aCookie.Attack = -1;
 			baddies.Add (aCookie);
-
-//			Baddie spider = new Baddie ();
-//			spider.Sprites = new GameSprite[] { new GameSprite (spriteSheet, spriteRects ["spider"]) };
-//			spider.Location = new Vector2 (750, 550);
-//			spider.Speed = new Vector2 (-10, 0);
-//			baddies.Add (spider);
 		}
 
 		public override void Hiding ()
 		{
 		}
 
-		int baddieType = 2;
+		float lastLocationX = 0;
+		int baddieType = 0;
+		int timePerBaddie = 4;
+		int numBaddies = 1;
 		public override void Update (GameTime gameTime)
 		{
 			base.Update (gameTime);
@@ -116,39 +120,81 @@ namespace Insomnia.Shared
 			float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 			timeSinceLastBaddie += elapsed;
 
-			if (timeSinceLastBaddie > 7) {
+			if (timeSinceLastBaddie > timePerBaddie) {
 				CullBaddies ();
+				var addCookie = false;
 				Baddie baddie = new Baddie ();
 				switch (baddieType) {
 				case 0:
-					baddie.Sprites = new GameSprite[] { new GameSprite (spriteSheet, spriteRects ["spider"]) };
-					baddie.Location = new Vector2 (1024, 550);
-					baddie.Speed = new Vector2 (-100, 0);
+					baddie.Sprites = new GameSprite[] { new GameSprite (spriteSheet, spriteRects ["cicken"]) };
+					baddie.Location = new Vector2 (1024, 450);
+					baddie.Speed = new Vector2 (-75, 0);
+					baddie.Health = 30;
+					if (lastLocationX > girl.locWorld.X && girl.Health < 3) {
+						lastLocationX = girl.locWorld.X;
+						addCookie = true;
+					}
 					break;
 				case 1:
-					baddie.Sprites = new GameSprite[] { new GameSprite (spriteSheet, spriteRects ["cicken"]) };
-					baddie.Location = new Vector2 (1024, 500);
-					baddie.Speed = new Vector2 (-25, 0);
-					break;
-				case 2:
 					baddie.Sprites = new GameSprite[] { 
 						new GameSprite (spriteSheet, spriteRects ["toy-1"]),
 						new GameSprite (spriteSheet, spriteRects ["toy-2"]),
 						new GameSprite (spriteSheet, spriteRects ["toy-3"]) 
 					};
-					baddie.Location = new Vector2 (1024, 570);
-					baddie.Speed = new Vector2 (-25, 0);
+					baddie.Location = new Vector2 (1024, 520);
+					baddie.Speed = new Vector2 (-50, 0);
+					baddie.Health = 50;
+					break;
+				case 2:
+					baddie.Sprites = new GameSprite[] { new GameSprite (spriteSheet, spriteRects ["spider"]) };
+					baddie.Location = new Vector2 (1024, 500);
+					baddie.Speed = new Vector2 (-200, 0);
+					baddie.Health = 20;
+					break;
+				case 3:
+					baddie.Sprites = new GameSprite[] { 
+						new GameSprite (spriteSheet, spriteRects ["slime-1"]),
+						new GameSprite (spriteSheet, spriteRects ["slime-2"]),
+						new GameSprite (spriteSheet, spriteRects ["slime-3"]), 
+						new GameSprite (spriteSheet, spriteRects ["slime-4"]),
+						new GameSprite (spriteSheet, spriteRects ["slime-5"]), 
+						new GameSprite (spriteSheet, spriteRects ["slime-6"]) 
+					};
+					baddie.Location = new Vector2 (1024, 520);
+					baddie.Speed = new Vector2 (-5, 0);
+					baddie.Health = 60;
+					break;
+				case 4:
+					baddie.Sprites = new GameSprite[] { 
+						new GameSprite (spriteSheet, spriteRects ["slime-1"]),
+						new GameSprite (spriteSheet, spriteRects ["slime-2"]),
+						new GameSprite (spriteSheet, spriteRects ["slime-3"]), 
+						new GameSprite (spriteSheet, spriteRects ["slime-4"]),
+						new GameSprite (spriteSheet, spriteRects ["slime-5"]), 
+						new GameSprite (spriteSheet, spriteRects ["slime-6"]) 
+					};
+					baddie.Location = new Vector2 (1024, 520);
+					baddie.Speed = new Vector2 (-5, 0);
+					baddie.Health = 60;
 					break;
 				}
 				baddies.Add (baddie);
 				timeSinceLastBaddie = 0;
-				baddieType = (baddieType + 1) % 3;
+				baddieType = (baddieType + 1) % numBaddies;
+
+				if (addCookie) {
+					Baddie aCookie = new Baddie ();
+					aCookie.Sprites = new GameSprite[] { new GameSprite (spriteSheet, spriteRects ["cookie"]) };
+					aCookie.Location = new Vector2 (1024, 500);
+					aCookie.Attack = -1;
+					baddies.Add (aCookie);
+				}
 			}
 
 			if (GamePadEx.WasJustPressed (PlayerIndex.One, Buttons.Back)) {
 				ScreenUtil.Show (TitleScreen.Instance);
 			} else if (GamePadEx.WasJustPressed (PlayerIndex.One, Buttons.Start)) {
-				ScreenUtil.Show (new CreditsScreen (Parent));
+				//ScreenUtil.Show (new CreditsScreen (Parent));
 			} else {
 				girl.Update (gameTime);
 				helper.Update (gameTime);
@@ -177,36 +223,48 @@ namespace Insomnia.Shared
 
 		private void drawBackground(SpriteBatch spriteBatch) {
 			var loc = girl.locWorld;
-			var rect = spriteRects ["background"];
+			int index = -(int)Math.Floor(loc.X / 200.0f) - 1;
 
-			while (loc.X < -rect.Width) {
-				loc.X += rect.Width;
+			var lvlBAD = levelBAD [Math.Max (index, 0)];
+			if (lvlBAD != ' ') {
+				numBaddies = toNumber (lvlBAD) + 1;
 			}
 
-			while (loc.X < GraphicsDevice.Viewport.Width) {
+			var lvlTime = levelTime [Math.Max (index, 0)];
+			if (lvlTime != ' ') {
+				timePerBaddie = toNumber (lvlTime);
+			}
+
+			while (index < levelBAK.Length) {
+				var rect = spriteRects ["grass"];
+				switch (levelBAK [Math.Max (index, 0)]) {
+				case 'g':
+					rect = spriteRects ["grass"];
+					break;
+				case 'h':
+					rect = spriteRects ["hall-1"];
+					break;
+				case 'H':
+					rect = spriteRects ["hall-2"];
+					break;
+				case 'B':
+					rect = spriteRects ["hall-3"];
+					break;
+				}
+				loc.X = (float)Math.Round(girl.locWorld.X) + index * 200;
 				spriteBatch.Draw (spriteSheet, loc, rect, Color.White);
-				loc.X += 200;
+				index++;
 			}
 		}
 
 		private void drawFairyLight(SpriteBatch spriteBatch) {
-			var tint = new Color (1.0f, 1.0f, 1.0f, 0.75f);
+			var loc = helper.Location + helper.deltaLocation;
+			loc.X += helper.Sprites [0].TextureRect.Width / 2;
+			loc.X -= spriteShadow.Bounds.Width / 2;
+			loc.Y += helper.Sprites [0].TextureRect.Height / 2;
+			loc.Y -= spriteShadow.Bounds.Height / 2;
+			spriteBatch.Draw (spriteShadow, loc, Color.White);
 
-			spriteBatch.Draw (spriteShadow, helper.Location + helper.deltaLocation - Vector2.One * 140.0f, tint);
-			spriteBatch.Draw (
-				spriteShadow, 
-				new Rectangle (0, 0, (int)(helper.Location.X + helper.deltaLocation.X - 139), 1000), 
-				new Rectangle (512, 0, 20, 20), 
-				tint);
-			spriteBatch.Draw (
-				spriteShadow, 
-				new Rectangle (
-					(int)(helper.Location.X + helper.deltaLocation.X - 140), 
-					0, 
-					1500, 
-					(int)(helper.Location.Y + helper.deltaLocation.Y - 139)), 
-				new Rectangle (512, 0, 20, 20), 
-				tint);
 		}
 
 		private void drawPlayerHealth(SpriteBatch spriteBatch) {
@@ -214,7 +272,7 @@ namespace Insomnia.Shared
 			var loc = Vector2.One * 10;
 			var locDelta = new Vector2 (rect.Width + 20, 0);
 			for (int i = 0; i < 3; i++) {
-				var tint = i < girl.Health ? Color.White : Color.DarkGray;
+				var tint = i < girl.Health ? Color.White : Color.Black;
 				spriteBatch.Draw (
 					spriteSheet, 
 					new Rectangle((int)loc.X, (int)loc.Y, rect.Width, rect.Height),
@@ -231,6 +289,11 @@ namespace Insomnia.Shared
 					i--;
 				}
 			}
+		}
+
+		string toNumberLookup = "0123456789abcdefghijklmnopqrstuvwxyz";
+		private int toNumber(char c) {
+			return toNumberLookup.IndexOf (c.ToString().ToLower()[0]);
 		}
 	}
 }

@@ -13,15 +13,15 @@ namespace Insomnia.Shared
 	public class TitleScreen : GameScreen
 	{
 		public static GameScreen Instance;
-		public static bool IsPlayerOnePlaying = true;
-		public static bool IsPlayerTwoPlaying = false;
+		Texture2D pic;
 
 		public TitleScreen(Game parent) : base(parent) { }
 
 		public override void Showing ()
 		{
-			BackgroundColor = Color.Green;
+			BackgroundColor = Color.White;
 			TitleScreen.Instance = this;
+			pic = Content.Load<Texture2D>("insomnia-poster");
 		}
 
 		public override void Hiding ()
@@ -43,6 +43,7 @@ namespace Insomnia.Shared
 		public override void Draw (GameTime gameTime, SpriteBatch spriteBatch)
 		{
 			base.Draw (gameTime, spriteBatch);
+			spriteBatch.Draw(pic, new Rectangle(0, 0, 1024, 768), new Color(1f, 1f, 1f, 1f));
 		}
 	}
 }

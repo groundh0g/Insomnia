@@ -36,13 +36,15 @@ namespace Insomnia.Shared
 //			if (gamepad.IsButtonDown (Buttons.DPadLeft)) {
 //				delta.X = -MoveSpeed.X * elapsed;
 //			}
+			delta.X = gamepad.ThumbSticks.Left.X;
+			if (delta.X < 0) { delta.X = 0; }
 			if (gamepad.IsButtonDown (Buttons.DPadRight)) {
 				delta.X = MoveSpeed.X * elapsed;
 			}
 			if (gamepad.IsButtonDown (Buttons.DPadUp)) {
 				delta.Y = -MoveSpeed.Y * elapsed;
 			}
-			if (gamepad.IsButtonDown (Buttons.DPadRight)) {
+			if (gamepad.IsButtonDown (Buttons.DPadDown)) {
 				delta.Y = MoveSpeed.Y * elapsed;
 			}
 

@@ -3,11 +3,11 @@
 <!-- https://github.com/groundh0g/FannyPack -->
 
 <!-- Packer: JoeRects, v0.1.0 -->
-<!-- Processed 9 frames in 0.392 seconds. -->
+<!-- Processed 17 frames in 0.684 seconds. -->
 
 <!-- Exporter (Data): XML, v0.1.0 -->
 <!-- Exporter (Image): PNG, v0.1.0 -->
-<!-- Wed Jun 15 2016 13:11:19 GMT-0400 (EDT) -->
+<!-- Fri Jun 17 2016 09:31:18 GMT-0400 (EDT) -->
 
 <!--
   Format:
@@ -23,14 +23,22 @@
     oW = original width (if trimmed)
     oH = original width (if trimmed)
 -->
-<TextureAtlas imagePath="Insomnia.png" width="512" height="1024">
-    <sprite n="background" x="4" y="4" w="201" h="768" oX="0" oY="0" oW="1024" oH="768" />
-    <sprite n="cicken" x="209" y="424" w="161" h="171" oX="62" oY="214" oW="512" oH="512" />
-    <sprite n="girl" x="209" y="4" w="248" h="416" oX="30" oY="21" oW="512" oH="512" />
+<TextureAtlas imagePath="Insomnia.png" width="1024" height="1024">
+    <sprite n="cicken" x="218" y="776" w="161" h="171" oX="62" oY="214" oW="512" oH="512" />
     <sprite n="spider" x="4" y="776" w="210" h="133" oX="32" oY="293" oW="512" oH="512" />
-    <sprite n="fairy" x="209" y="599" w="124" h="121" oX="25" oY="23" oW="512" oH="512" />
-    <sprite n="toy-1" x="218" y="724" w="70" h="105" oX="0" oY="0" oW="70" oH="105" />
+    <sprite n="fairy" x="383" y="776" w="124" h="121" oX="25" oY="23" oW="512" oH="512" />
+    <sprite n="toy-1" x="457" y="901" w="70" h="105" oX="0" oY="0" oW="70" oH="105" />
     <sprite n="toy-2" x="82" y="913" w="70" h="106" oX="0" oY="5" oW="70" oH="111" />
-    <sprite n="toy-3" x="156" y="913" w="70" h="106" oX="0" oY="5" oW="70" oH="111" />
+    <sprite n="toy-3" x="383" y="901" w="70" h="106" oX="0" oY="5" oW="70" oH="111" />
     <sprite n="cookie" x="4" y="913" w="74" h="74" oX="13" oY="11" oW="512" oH="512" />
+    <sprite n="grass" x="4" y="4" w="200" h="768" oX="0" oY="0" oW="200" oH="768" />
+    <sprite n="hall-1" x="208" y="4" w="200" h="768" oX="0" oY="0" oW="200" oH="768" />
+    <sprite n="hall-2" x="412" y="4" w="200" h="768" oX="0" oY="0" oW="200" oH="768" />
+    <sprite n="hall-3" x="616" y="4" w="200" h="768" oX="0" oY="0" oW="200" oH="768" />
+    <sprite n="Slime-1" x="531" y="868" w="69" h="78" oX="14" oY="4" oW="94" oH="84" />
+    <sprite n="Slime-2" x="156" y="951" w="69" h="69" oX="17" oY="11" oW="94" oH="84" />
+    <sprite n="Slime-3" x="229" y="951" w="69" h="56" oX="15" oY="23" oW="94" oH="84" />
+    <sprite n="Slime-4" x="302" y="951" w="69" h="69" oX="16" oY="14" oW="94" oH="84" />
+    <sprite n="Slime-5" x="583" y="776" w="69" h="78" oX="11" oY="3" oW="94" oH="84" />
+    <sprite n="Slime-6" x="511" y="776" w="68" h="88" oX="15" oY="0" oW="94" oH="88" />
 </TextureAtlas>

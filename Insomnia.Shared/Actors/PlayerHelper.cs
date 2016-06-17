@@ -36,11 +36,11 @@ namespace Insomnia.Shared
 				var gamepad = GamePadEx.GetState (TrackActor.PlayerIndex);
 				var isCharging = gamepad.IsButtonDown (Buttons.A);
 
-				if (isCharging) {
+				if (isCharging && (State == HelperState.HOVER || State == HelperState.CHARGE)) {
 					State = HelperState.CHARGE;
-					charge += 5 * elapsed;
-					if (charge > 50) {
-						charge = 50;
+					charge += 15 * elapsed;
+					if (charge > this.Attack) {
+						charge = this.Attack;
 					}
 				} else {
 					if (charge > 0) {
@@ -85,7 +85,7 @@ namespace Insomnia.Shared
 					Location = new Vector2 (TrackActor.Location.X + 100, Location.Y);
 					break;
 				case HelperState.CHARGE:
-					deltaLocation = new Vector2 (rand.Next (20), rand.Next (25));
+					deltaLocation = new Vector2 (rand.Next (20 + (int)charge), rand.Next (25 + (int)charge));
 					Location = new Vector2 (TrackActor.Location.X + 50, Location.Y);
 					break;
 				}

@@ -34,7 +34,7 @@ namespace Insomnia.Shared
 		protected override void LoadContent ()
 		{
 			spriteBatch = new SpriteBatch (GraphicsDevice);
-			ScreenUtil.Show(new SplashScreen(this));
+			ScreenUtil.Show(new TitleScreen(this));
 		}
 
 		protected override void Update (GameTime gameTime)
