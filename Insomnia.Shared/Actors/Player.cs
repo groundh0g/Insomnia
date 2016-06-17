@@ -32,7 +32,7 @@ namespace Insomnia.Shared
 			float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 			var delta = Vector2.Zero;
 
-			var gamepad = GamePadEx.GetState (PlayerIndex);
+			var gamepad = GamePad.GetState (PlayerIndex);
 //			if (gamepad.IsButtonDown (Buttons.DPadLeft)) {
 //				delta.X = -MoveSpeed.X * elapsed;
 //			}
@@ -88,9 +88,13 @@ namespace Insomnia.Shared
 					this.Health -= baddie.Attack;
 					if (Health > 3) {
 						Health = 3;
-					}
-					if (Health < 0) {
-						Health = 0;
+					} else {
+						if (Health <= 0) {
+							Health = 0;
+							TheGameScreen.sounds ["girl-death"].Play ();
+						} else {
+							TheGameScreen.sounds ["girl-hit"].Play ();
+						}
 					}
 					baddie.IsActive = false;
 					break;

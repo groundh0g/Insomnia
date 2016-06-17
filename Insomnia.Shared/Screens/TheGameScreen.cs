@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -16,6 +17,9 @@ namespace Insomnia.Shared
 		Dictionary<string, Rectangle> spriteRects;
 		Texture2D spriteSheet;
 		Texture2D spriteShadow;
+		Texture2D spriteBoss;
+
+		public static Dictionary<string, SoundEffect> sounds = new Dictionary<string, SoundEffect> ();
 
 		string levelBAK  = "gggggggggggggggggggggggdhhhhhhhhhhhhhhhhHHHHHHHHHHHHHHHHBBBBBBBBBBBBBBBB";
 		string levelOBJ  = "                                                                        ";
@@ -42,6 +46,7 @@ namespace Insomnia.Shared
 			spriteRects = TextureAtlas.Load ("Insomnia");
 			spriteSheet = Content.Load<Texture2D> ("Insomnia");
 			spriteShadow = Content.Load<Texture2D> ("shadow");
+			spriteBoss = Content.Load<Texture2D> ("eilrahc");
 
 			var idleSprites = new List<GameSprite>() { 
 				new GameSprite (girlSheet, girlRects ["Idle (1)"]),
@@ -98,6 +103,18 @@ namespace Insomnia.Shared
 			aCookie.Location = new Vector2 (550, 500);
 			aCookie.Attack = -1;
 			baddies.Add (aCookie);
+
+			sounds.Clear ();
+			sounds.Add ("cluck", Content.Load<SoundEffect> ("cluck"));
+			sounds.Add ("chicken-death", Content.Load<SoundEffect> ("chicken-death"));
+			sounds.Add ("clank", Content.Load<SoundEffect> ("clank"));
+			sounds.Add ("get-the-girl", Content.Load<SoundEffect> ("get-the-girl"));
+			sounds.Add ("unicorn", Content.Load<SoundEffect> ("unicorn"));
+			sounds.Add ("unicorn-death", Content.Load<SoundEffect> ("unicorn-death"));
+			sounds.Add ("slime", Content.Load<SoundEffect> ("slime"));
+			sounds.Add ("spider", Content.Load<SoundEffect> ("spider"));
+			sounds.Add ("girl-hit", Content.Load<SoundEffect> ("girl-hit"));
+			sounds.Add ("girl-death", Content.Load<SoundEffect> ("girl-death"));
 		}
 
 		public override void Hiding ()
@@ -106,7 +123,7 @@ namespace Insomnia.Shared
 
 		float lastLocationX = 0;
 		int baddieType = 0;
-		int timePerBaddie = 4;
+		int timePerBaddie = 7;
 		int numBaddies = 1;
 		public override void Update (GameTime gameTime)
 		{
@@ -130,7 +147,9 @@ namespace Insomnia.Shared
 					baddie.Location = new Vector2 (1024, 450);
 					baddie.Speed = new Vector2 (-75, 0);
 					baddie.Health = 30;
-					if (lastLocationX > girl.locWorld.X && girl.Health < 3) {
+					baddie.GruntMp3 = "cluck";
+					baddie.DeathMp3 = "chicken-death";
+					if (lastLocationX > girl.locWorld.X && girl.Health < 2) {
 						lastLocationX = girl.locWorld.X;
 						addCookie = true;
 					}
@@ -144,38 +163,41 @@ namespace Insomnia.Shared
 					baddie.Location = new Vector2 (1024, 520);
 					baddie.Speed = new Vector2 (-50, 0);
 					baddie.Health = 50;
+					baddie.GruntMp3 = "get-the-girl";
+					baddie.DeathMp3 = "clank";
 					break;
 				case 2:
 					baddie.Sprites = new GameSprite[] { new GameSprite (spriteSheet, spriteRects ["spider"]) };
 					baddie.Location = new Vector2 (1024, 500);
 					baddie.Speed = new Vector2 (-200, 0);
 					baddie.Health = 20;
+					//baddie.GruntMp3 = "spider";
+					baddie.DeathMp3 = "spider";
 					break;
 				case 3:
 					baddie.Sprites = new GameSprite[] { 
-						new GameSprite (spriteSheet, spriteRects ["slime-1"]),
-						new GameSprite (spriteSheet, spriteRects ["slime-2"]),
-						new GameSprite (spriteSheet, spriteRects ["slime-3"]), 
-						new GameSprite (spriteSheet, spriteRects ["slime-4"]),
-						new GameSprite (spriteSheet, spriteRects ["slime-5"]), 
-						new GameSprite (spriteSheet, spriteRects ["slime-6"]) 
+						new GameSprite (spriteSheet, spriteRects ["Slime-1"]),
+						new GameSprite (spriteSheet, spriteRects ["Slime-2"]),
+						new GameSprite (spriteSheet, spriteRects ["Slime-3"]), 
+						new GameSprite (spriteSheet, spriteRects ["Slime-4"]),
+						new GameSprite (spriteSheet, spriteRects ["Slime-5"]), 
+						new GameSprite (spriteSheet, spriteRects ["Slime-6"]) 
 					};
 					baddie.Location = new Vector2 (1024, 520);
-					baddie.Speed = new Vector2 (-5, 0);
-					baddie.Health = 60;
+					baddie.Speed = new Vector2 (-40, 0);
+					baddie.Health = 55;
+					baddie.GruntMp3 = "slime";
+					baddie.DeathMp3 = "slime";
 					break;
 				case 4:
 					baddie.Sprites = new GameSprite[] { 
-						new GameSprite (spriteSheet, spriteRects ["slime-1"]),
-						new GameSprite (spriteSheet, spriteRects ["slime-2"]),
-						new GameSprite (spriteSheet, spriteRects ["slime-3"]), 
-						new GameSprite (spriteSheet, spriteRects ["slime-4"]),
-						new GameSprite (spriteSheet, spriteRects ["slime-5"]), 
-						new GameSprite (spriteSheet, spriteRects ["slime-6"]) 
+						new GameSprite (spriteBoss, spriteBoss.Bounds)
 					};
-					baddie.Location = new Vector2 (1024, 520);
+					baddie.Location = new Vector2 (1024, 235);
 					baddie.Speed = new Vector2 (-5, 0);
-					baddie.Health = 60;
+					baddie.Health = 150;
+					baddie.GruntMp3 = "unicorn";
+					baddie.DeathMp3 = "unicorn-death";
 					break;
 				}
 				baddies.Add (baddie);
@@ -191,7 +213,7 @@ namespace Insomnia.Shared
 				}
 			}
 
-			if (GamePadEx.WasJustPressed (PlayerIndex.One, Buttons.Back)) {
+			if (GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.Back)) {
 				ScreenUtil.Show (TitleScreen.Instance);
 			} else if (GamePadEx.WasJustPressed (PlayerIndex.One, Buttons.Start)) {
 				//ScreenUtil.Show (new CreditsScreen (Parent));

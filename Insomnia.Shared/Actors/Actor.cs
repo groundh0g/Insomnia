@@ -19,6 +19,8 @@ namespace Insomnia.Shared
 		public int CurrentFrame { get; set; }
 		public Color Tint { get; set; }
 		public Vector2 Speed { get; set; }
+		public string DeathMp3 { get; set; }
+		public string GruntMp3 { get; set; }
 
 		public Actor () : this(null, null, null, null, null) { }
 

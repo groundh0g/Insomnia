@@ -33,7 +33,7 @@ namespace Insomnia.Shared
 			float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
 			if (TrackActor != null) {
-				var gamepad = GamePadEx.GetState (TrackActor.PlayerIndex);
+				var gamepad = GamePad.GetState (TrackActor.PlayerIndex);
 				var isCharging = gamepad.IsButtonDown (Buttons.A);
 
 				if (isCharging && (State == HelperState.HOVER || State == HelperState.CHARGE)) {
@@ -60,9 +60,15 @@ namespace Insomnia.Shared
 									if (baddie.Health <= charge) {
 										baddie.IsActive = false;
 										charge -= baddie.Health;
+										if (baddie.DeathMp3 != null) {
+											TheGameScreen.sounds [baddie.DeathMp3].Play();
+										}
 									} else {
 										baddie.Health -= (int)Math.Round(charge);
 										charge = 0;
+										if (baddie.GruntMp3 != null) {
+											TheGameScreen.sounds [baddie.GruntMp3].Play ();
+										}
 									}
 									break;
 								}

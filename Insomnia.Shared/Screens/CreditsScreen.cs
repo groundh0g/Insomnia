@@ -27,7 +27,7 @@ namespace Insomnia.Shared
 		{
 			base.Update (gameTime);
 
-			if (GamePadEx.WasJustPressed(PlayerIndex.One, Buttons.Back)) {
+			if (GamePad.GetState(PlayerIndex.One).IsButtonDown(Buttons.Back)) {
 				ScreenUtil.Show (TitleScreen.Instance);
 			}
 		}
