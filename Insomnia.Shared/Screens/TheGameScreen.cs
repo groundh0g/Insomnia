@@ -24,7 +24,7 @@ namespace Insomnia.Shared
 		public static Song song;
 
 		string levelBAK  = "gggggggggggggggggggggggdhhhhhhhhhhhhhhhhHHHHHHHHHHHHHHHHBBBBBBBBBBBBBBBB";
-		string levelOBJ  = "                                                                        ";
+		string levelOBJ  = "                              0      1      2      3      4             ";
 		string levelBAD  = "0                       1          2         3                   4      ";
 		string levelTime = "8         6         5              4                                    ";
 
@@ -112,12 +112,12 @@ namespace Insomnia.Shared
                 girl.PlayerSprites.Add(Player.PlayerState.IDLE, idleSprites);
                 girl.PlayerSprites.Add(Player.PlayerState.RUN, runSprites);
                 girl.PlayerSprites.Add(Player.PlayerState.JUMP, jumpSprites);
-                girl.Location = new Vector2(50, 425);
+				girl.Location = new Vector2(50, 425);
                 girl.MoveSpeed = new Vector2(200, 0);
                 girl.Baddies = baddies;
                 girl.PlayerIndex = (PlayerIndex)i;
 
-                var helper = helpers[i];
+				var helper = helpers[i];
 
                 helper.Sprites = new GameSprite[] { new GameSprite(spriteSheet, spriteRects["fairy"]) };
                 helper.Location = new Vector2(50, 450);
@@ -194,12 +194,22 @@ namespace Insomnia.Shared
 				Baddie baddie = new Baddie ();
 				switch (baddieType) {
 				case 0:
-					baddie.Sprites = new GameSprite[] { new GameSprite (spriteSheet, spriteRects ["cicken"]) };
-					baddie.Location = new Vector2 (1024, 450);
+					baddie.Sprites = new GameSprite[] { 
+						new GameSprite (spriteSheet, spriteRects ["chicken-1"]),
+						new GameSprite (spriteSheet, spriteRects ["chicken-2"]),
+						new GameSprite (spriteSheet, spriteRects ["chicken-3"]), 
+						new GameSprite (spriteSheet, spriteRects ["chicken-4"]) 
+					};
+					baddie.Location = new Vector2 (1024, 380);
 					baddie.Speed = new Vector2 (-75, 0);
 					baddie.Health = 30;
 					baddie.GruntMp3 = "cluck";
 					baddie.DeathMp3 = "chicken-death";
+					foreach (Player girl in girls) {
+						if (girl.Health < 2) {
+							addCookie = true;
+						}
+					}
 					break;
 				case 1:
 					baddie.Sprites = new GameSprite[] { 
@@ -304,7 +314,12 @@ namespace Insomnia.Shared
 			drawPlayerHealth (spriteBatch);
 		}
 
+		Vector2? endOfWorld = null;
 		private void drawBackground(SpriteBatch spriteBatch) {
+			if (endOfWorld.HasValue) {
+				girls [0].locWorld = endOfWorld.Value;
+				baddieType = 4;
+			}
 			var loc = girls[0].locWorld;
 			int index = -(int)Math.Floor(loc.X / 200.0f) - 1;
 
@@ -318,7 +333,12 @@ namespace Insomnia.Shared
 				timePerBaddie = toNumber (lvlTime);
 			}
 
+			if (index == levelBAK.Length - 5 && endOfWorld == null) {
+				endOfWorld = girls [0].locWorld;
+			}
+
 			while (index < levelBAK.Length) {
+				var lvlOBJ = levelOBJ [Math.Max (index, 0)];
 				var rect = spriteRects ["grass"];
 				switch (levelBAK [Math.Max (index, 0)]) {
 				case 'g':
@@ -336,6 +356,12 @@ namespace Insomnia.Shared
 				}
 				loc.X = (float)Math.Round(girls[0].locWorld.X) + index * 200;
 				spriteBatch.Draw (spriteSheet, loc, rect, Color.White);
+
+				if (lvlOBJ != ' ') {
+					var locDelta = new Vector2 (-100,100);
+					spriteBatch.Draw(spriteSheet, loc + locDelta, spriteRects["portrait-" + (toNumber(lvlOBJ) + 1)], Color.White);
+				}
+
 				index++;
 			}
 		}

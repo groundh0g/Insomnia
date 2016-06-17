@@ -98,20 +98,27 @@ namespace Insomnia.Shared
 				rect2.X = (int)baddie.Location.X;
 				rect2.Y = (int)baddie.Location.Y;
 				if (rect1.Intersects (rect2) && baddie.IsActive) {
-					this.Health -= baddie.Attack;
-					if (Health > 3) {
-						Health = 3;
+
+					if (Health == 3 && baddie.Attack == -1) {
+						// if cookie and full, do nothing
 					} else {
-						if (Health <= 0) {
-							Health = 0;
-							TheGameScreen.sounds ["girl-death"].Play ();
-                            IsActive = false;
+
+						this.Health -= baddie.Attack;
+						if (Health > 3) {
+							Health = 3;
 						} else {
-							TheGameScreen.sounds ["girl-hit"].Play ();
+							if (Health <= 0) {
+								Health = 0;
+								TheGameScreen.sounds ["girl-death"].Play ();
+								IsActive = false;
+							} else if(baddie.Attack > 0){
+								TheGameScreen.sounds ["girl-hit"].Play ();
+							}
 						}
+						baddie.IsActive = false;
+						break;
+
 					}
-					baddie.IsActive = false;
-					break;
 				}
 			}
 		}
