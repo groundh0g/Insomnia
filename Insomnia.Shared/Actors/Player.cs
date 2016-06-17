@@ -29,6 +29,10 @@ namespace Insomnia.Shared
 
 		public override void Update (GameTime gameTime, Game Parent)
 		{
+			if (GamePad.GetState (PlayerIndex).IsConnected == false) {
+				IsActive = false;
+			}
+
 			float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 			var delta = Vector2.Zero;
 
