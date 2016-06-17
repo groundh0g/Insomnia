@@ -26,13 +26,13 @@ namespace Insomnia.Shared
 			State = HelperState.HOVER;
 		}
 
-		public override void Update (GameTime gameTime)
+		public override void Update (GameTime gameTime, Game Parent)
 		{
-			base.Update (gameTime);
+			base.Update (gameTime, Parent);
 
 			float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-			if (TrackActor != null) {
+			if (TrackActor != null && GamePad.GetState(TrackActor.PlayerIndex).IsConnected) {
 				var gamepad = GamePad.GetState (TrackActor.PlayerIndex);
 				var isCharging = gamepad.IsButtonDown (Buttons.A);
 
@@ -43,8 +43,10 @@ namespace Insomnia.Shared
 						charge = this.Attack;
 					}
 				} else {
-					if (charge > 0) {
-						State = HelperState.ATTACK;
+					if (charge > 0)
+                    {
+                        GamePad.SetVibration(TrackActor.PlayerIndex, 0.0f, 0.0f);
+                        State = HelperState.ATTACK;
 						Location = new Vector2 (Location.X + 400 * elapsed, Location.Y);
 						if (Location.X > 1024) {
 							charge = 0;
@@ -77,11 +79,15 @@ namespace Insomnia.Shared
 					} else if (Location.X > TrackActor.Location.X + 100) {
 						State = HelperState.RETURN;
 						Location = new Vector2 (Location.X - 800 * elapsed, Location.Y);
-						if (Location.X < TrackActor.Location.X + 100) {
-							State = HelperState.HOVER;
+						if (Location.X < TrackActor.Location.X + 100)
+                        {
+                            GamePad.SetVibration(TrackActor.PlayerIndex, 0.0f, 0.0f);
+                            State = HelperState.HOVER;
 						}
-					} else {
-						State = HelperState.HOVER;
+					} else
+                    {
+                        GamePad.SetVibration(TrackActor.PlayerIndex, 0.0f, 0.0f);
+                        State = HelperState.HOVER;
 					}
 				}
 
@@ -89,9 +95,11 @@ namespace Insomnia.Shared
 				case HelperState.HOVER:
 					deltaLocation.Y = (float)Math.Sin (gameTime.TotalGameTime.TotalSeconds) * 50.0f;
 					Location = new Vector2 (TrackActor.Location.X + 100, Location.Y);
-					break;
+                        GamePad.SetVibration(TrackActor.PlayerIndex, 0.0f, 0.0f);
+                        break;
 				case HelperState.CHARGE:
-					deltaLocation = new Vector2 (rand.Next (20 + (int)charge), rand.Next (25 + (int)charge));
+                        GamePad.SetVibration(TrackActor.PlayerIndex, (float)charge / 50, (float)charge / 50);
+                        deltaLocation = new Vector2 (rand.Next (20 + (int)charge), rand.Next (25 + (int)charge));
 					Location = new Vector2 (TrackActor.Location.X + 50, Location.Y);
 					break;
 				}
@@ -100,9 +108,17 @@ namespace Insomnia.Shared
 
 		public override void Draw (GameTime gameTime, SpriteBatch spriteBatch)
 		{
-			if (HasFrames) {
-				Sprites [CurrentFrame].Draw (spriteBatch, Location + deltaLocation, Tint);
-			}
+            if (HasFrames && GamePad.GetState(TrackActor.PlayerIndex).IsConnected)
+            {
+                List<Color> tints = new List<Color>()
+                {
+                    new Color(1.0f, 1.0f, 1.0f),
+                    new Color(1.0f, 1.0f, 0.0f),
+                    new Color(0.0f, 1.0f, 1.0f),
+                    new Color(1.0f, 0.0f, 1.0f)
+                };
+                Sprites[CurrentFrame].Draw(spriteBatch, Location + deltaLocation, tints[(int)TrackActor.PlayerIndex]);
+            }
 		}
 	}
 }

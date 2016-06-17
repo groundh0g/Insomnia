@@ -27,26 +27,27 @@ namespace Insomnia.Shared
 			State = PlayerState.IDLE;
 		}
 
-		public override void Update (GameTime gameTime)
+		public override void Update (GameTime gameTime, Game Parent)
 		{
 			float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 			var delta = Vector2.Zero;
 
-			var gamepad = GamePad.GetState (PlayerIndex);
-//			if (gamepad.IsButtonDown (Buttons.DPadLeft)) {
-//				delta.X = -MoveSpeed.X * elapsed;
-//			}
-			delta.X = gamepad.ThumbSticks.Left.X;
-			if (delta.X < 0) { delta.X = 0; }
-			if (gamepad.IsButtonDown (Buttons.DPadRight)) {
-				delta.X = MoveSpeed.X * elapsed;
-			}
-			if (gamepad.IsButtonDown (Buttons.DPadUp)) {
-				delta.Y = -MoveSpeed.Y * elapsed;
-			}
-			if (gamepad.IsButtonDown (Buttons.DPadDown)) {
-				delta.Y = MoveSpeed.Y * elapsed;
-			}
+			
+            var gamepad = GamePadEx.GetState(PlayerIndex);
+            if (gamepad.ThumbSticks.Left.X < -0.1f)
+            {
+                if (Location.X > 0)
+                {
+                    delta.X = MoveSpeed.X * elapsed * gamepad.ThumbSticks.Left.X * 2;
+                }
+            }
+            if (gamepad.ThumbSticks.Left.X > 0.1f)
+            {
+                if (Location.X < 960)
+                {
+                    delta.X = MoveSpeed.X * elapsed * gamepad.ThumbSticks.Left.X * 2;
+                }
+            }
 
 			if (delta != Vector2.Zero) {
 				if (State != PlayerState.RUN) {
@@ -60,13 +61,22 @@ namespace Insomnia.Shared
 				}
 			}
 
-			//Location += delta;
-			updateBaddiePosition (-delta);
-			locWorld -= delta;
+            if (PlayerIndex == 0)
+            {
+                updateBaddiePosition(-delta);
+            }
+            if (PlayerIndex == 0)
+            {
+                locWorld -= delta;
+            }
+            else
+            {
+                Location += delta;
+            }
 
-//			base.Update (gameTime);
+			base.Update (gameTime, Parent);
 
-			timeOnCurrentFrame -= elapsed;
+            timeOnCurrentFrame -= elapsed;
 			if (timeOnCurrentFrame < 0.0) {
 				CurrentFrame = (CurrentFrame + 1) % PlayerSprites [State].Count;
 				timeOnCurrentFrame = TimePerFrame;
@@ -92,6 +102,7 @@ namespace Insomnia.Shared
 						if (Health <= 0) {
 							Health = 0;
 							TheGameScreen.sounds ["girl-death"].Play ();
+                            IsActive = false;
 						} else {
 							TheGameScreen.sounds ["girl-hit"].Play ();
 						}
@@ -112,8 +123,11 @@ namespace Insomnia.Shared
 
 		public override void Draw (GameTime gameTime, SpriteBatch spriteBatch)
 		{
-			PlayerSprites[State][CurrentFrame].Draw (spriteBatch, Location, Tint);
-		}
+            if (GamePad.GetState(PlayerIndex).IsConnected)
+            {
+                PlayerSprites[State][CurrentFrame].Draw(spriteBatch, Location, Tint);
+            }
+        }
 	}
 }
 

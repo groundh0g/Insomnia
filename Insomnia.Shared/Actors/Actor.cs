@@ -21,6 +21,7 @@ namespace Insomnia.Shared
 		public Vector2 Speed { get; set; }
 		public string DeathMp3 { get; set; }
 		public string GruntMp3 { get; set; }
+        public bool isBoss { get; set; }
 
 		public Actor () : this(null, null, null, null, null) { }
 
@@ -43,7 +44,7 @@ namespace Insomnia.Shared
 		}
 
 		protected double timeOnCurrentFrame = 0.0;
-		public virtual void Update(GameTime gameTime) {
+		public virtual void Update(GameTime gameTime, Game parent) {
 			float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
 			Location += Speed * elapsed;
@@ -61,7 +62,11 @@ namespace Insomnia.Shared
 			if (HasFrames && IsActive) {
 				Sprites [CurrentFrame].Draw (spriteBatch, Location, Tint);
 			}
-		}
-	}
+        }
+        public virtual void OnDeath(GameTime gametime, Game Parent)
+        {
+
+        }
+    }
 }
 
