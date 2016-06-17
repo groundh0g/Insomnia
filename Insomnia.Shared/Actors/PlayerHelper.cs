@@ -62,6 +62,7 @@ namespace Insomnia.Shared
 									if (baddie.Health <= charge) {
 										baddie.IsActive = false;
 										charge -= baddie.Health;
+										baddie.OnDeath (gameTime, Parent);
 										if (baddie.DeathMp3 != null) {
 											TheGameScreen.sounds [baddie.DeathMp3].Play();
 										}

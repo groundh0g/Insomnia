@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 using MoreOnCode.Xna.Lib.Graphics;
 using MoreOnCode.Xna.Lib.Util;
@@ -20,6 +21,7 @@ namespace Insomnia.Shared
 		Texture2D spriteBoss;
 
 		public static Dictionary<string, SoundEffect> sounds = new Dictionary<string, SoundEffect> ();
+		public static Song song;
 
 		string levelBAK  = "gggggggggggggggggggggggdhhhhhhhhhhhhhhhhHHHHHHHHHHHHHHHHBBBBBBBBBBBBBBBB";
 		string levelOBJ  = "                                                                        ";
@@ -149,6 +151,11 @@ namespace Insomnia.Shared
 			sounds.Add ("spider", Content.Load<SoundEffect> ("spider"));
 			sounds.Add ("girl-hit", Content.Load<SoundEffect> ("girl-hit"));
 			sounds.Add ("girl-death", Content.Load<SoundEffect> ("girl-death"));
+
+//			song = Content.Load<Song> ("game-music");
+//			MediaPlayer.IsRepeating = true;
+//			MediaPlayer.Volume = 1.0f;
+//			MediaPlayer.Play (song);
 		}
 
 		public override void Hiding ()
@@ -167,7 +174,7 @@ namespace Insomnia.Shared
 
             foreach (var girl in girls)
             {
-                if (girl.Health < 1)
+				if (girl.Health < 1 || girl.IsActive == false)
                 {
                     pcount--;
                 }
@@ -235,7 +242,8 @@ namespace Insomnia.Shared
 					};
 					baddie.Location = new Vector2 (1024, 235);
 					baddie.Speed = new Vector2 (-5, 0);
-					baddie.Health = 150;
+					baddie.Health = 500;
+					baddie.isBoss = true;
 					baddie.GruntMp3 = "unicorn";
 					baddie.DeathMp3 = "unicorn-death";
 					break;
@@ -339,14 +347,16 @@ namespace Insomnia.Shared
 
             foreach (var helper in helpers)
             {
-                _locx += (int)helper.Location.X - helper.Sprites[0].TextureRect.Width/2;
-                _locy += (int)helper.Location.Y - helper.Sprites[0].TextureRect.Height/2;
+				if (helper.TrackActor.IsActive) {
+					_locx += (int)helper.Location.X - helper.Sprites [0].TextureRect.Width / 2;
+					_locy += (int)helper.Location.Y - helper.Sprites [0].TextureRect.Height / 2;
+				}
             }
 
             _locx /= 4;
             _locy /= 4;
 
-            Vector2 loc = new Vector2(_locx, _locy);
+            Vector2 loc = new Vector2(_locx - 2000, _locy - 2000);
 
 			spriteBatch.Draw (spriteShadow, loc, Color.White);
 

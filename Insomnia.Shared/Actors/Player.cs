@@ -32,8 +32,11 @@ namespace Insomnia.Shared
 			float elapsed = (float)gameTime.ElapsedGameTime.TotalSeconds;
 			var delta = Vector2.Zero;
 
-			
             var gamepad = GamePadEx.GetState(PlayerIndex);
+			if(gamepad.IsButtonDown(Buttons.DPadRight)) {
+				delta.X = MoveSpeed.X * elapsed * gamepad.ThumbSticks.Left.X * 2;
+			}
+				
             if (gamepad.ThumbSticks.Left.X < -0.1f)
             {
                 if (Location.X > 0)
@@ -74,7 +77,7 @@ namespace Insomnia.Shared
                 Location += delta;
             }
 
-			base.Update (gameTime, Parent);
+			//base.Update (gameTime, Parent);
 
             timeOnCurrentFrame -= elapsed;
 			if (timeOnCurrentFrame < 0.0) {
