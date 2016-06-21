@@ -119,7 +119,6 @@ namespace Insomnia.Shared
 								TheGameScreen.sounds ["girl-hit"].Play ();
 							}
 						}
-						baddie.IsActive = false;
 						break;
 
 					}

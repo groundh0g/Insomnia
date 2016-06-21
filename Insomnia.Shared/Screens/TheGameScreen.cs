@@ -20,6 +20,8 @@ namespace Insomnia.Shared
 		Texture2D spriteShadow;
 		Texture2D spriteBoss;
 
+        public bool bossSpawned = false;
+
 		public static Dictionary<string, SoundEffect> sounds = new Dictionary<string, SoundEffect> ();
 		public static Song song;
 
@@ -162,7 +164,7 @@ namespace Insomnia.Shared
 		{
 		}
 
-		float lastLocationX = 0;
+//		float lastLocationX = 0;
 		int baddieType = 0;
 		int timePerBaddie = 7;
 		int numBaddies = 1;
@@ -209,8 +211,9 @@ namespace Insomnia.Shared
 						if (girl.Health < 2) {
 							addCookie = true;
 						}
-					}
-					break;
+                        }
+                        baddies.Add(baddie);
+                        break;
 				case 1:
 					baddie.Sprites = new GameSprite[] { 
 						new GameSprite (spriteSheet, spriteRects ["toy-1"]),
@@ -222,7 +225,8 @@ namespace Insomnia.Shared
 					baddie.Health = 50;
 					baddie.GruntMp3 = "get-the-girl";
 					baddie.DeathMp3 = "clank";
-					break;
+                        baddies.Add(baddie);
+                        break;
 				case 2:
 					baddie.Sprites = new GameSprite[] { new GameSprite (spriteSheet, spriteRects ["spider"]) };
 					baddie.Location = new Vector2 (1024, 500);
@@ -230,7 +234,8 @@ namespace Insomnia.Shared
 					baddie.Health = 20;
 					//baddie.GruntMp3 = "spider";
 					baddie.DeathMp3 = "spider";
-					break;
+                        baddies.Add(baddie);
+                        break;
 				case 3:
 					baddie.Sprites = new GameSprite[] { 
 						new GameSprite (spriteSheet, spriteRects ["Slime-1"]),
@@ -245,24 +250,30 @@ namespace Insomnia.Shared
 					baddie.Health = 55;
 					baddie.GruntMp3 = "slime";
 					baddie.DeathMp3 = "slime";
-					break;
+                        baddies.Add(baddie);
+                        break;
 				case 4:
-					baddie.Sprites = new GameSprite[] { 
-						new GameSprite (spriteBoss, spriteBoss.Bounds)
-					};
-					baddie.Location = new Vector2 (1024, 235);
-					baddie.Speed = new Vector2 (-5, 0);
-					baddie.Health = 500;
-					baddie.isBoss = true;
-					baddie.GruntMp3 = "unicorn";
-					baddie.DeathMp3 = "unicorn-death";
-					break;
+                        if (bossSpawned == false)
+                        {
+                            bossSpawned = true;
+                            baddie.Sprites = new GameSprite[] {
+                                new GameSprite (spriteBoss, spriteBoss.Bounds)
+                            };
+                            baddie.Location = new Vector2(1024, 235);
+                            baddie.Speed = new Vector2(-50, 0);
+                            baddie.Health = 500;
+                            baddie.Attack = 2;
+                            baddie.isBoss = true;
+                            baddie.GruntMp3 = "unicorn";
+                            baddie.DeathMp3 = "unicorn-death";
+                            baddies.Add(baddie);
+                        }
+                    break;
 				}
-				baddies.Add (baddie);
-				timeSinceLastBaddie = 0;
-				baddieType = (baddieType + 1) % numBaddies;
+                timeSinceLastBaddie = 0;
+                baddieType = (baddieType + 1) % numBaddies;
 
-				if (addCookie) {
+                if (addCookie) {
 					Baddie aCookie = new Baddie ();
 					aCookie.Sprites = new GameSprite[] { new GameSprite (spriteSheet, spriteRects ["cookie"]) };
 					aCookie.Location = new Vector2 (1024, 500);
